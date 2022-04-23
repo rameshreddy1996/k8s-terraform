@@ -1,0 +1,605 @@
+1st create ec2 instance-linux os
+login
+ssh -i chamu ec2-user@ip
+sudo su -
+#install docker engine
+yum install docker
+#start docker engine
+systemctl start docker
+#write owne docker file
+mkdir apache
+cd apache/
+vi dockerfile
+    FROM httpd
+    COPY . /usr/local/apache2/htdocs/
+#build images
+docker build apache .
+#ru the container
+docker run -d -p 80:80 apache
+#login to the container
+docker exec -it containerid bash
+#come back to root user
+#create folder for ststic page
+mkdir static
+cd static/
+#jquery templte copy url 
+wget https://www.free-css.com/assets/files/free-css-templates/download/page268/drinker.zip
+unzip drinker.zip
+#see th index.html file write the dockerfile
+#write docker file againe in this PATH
+vi dockerfile
+FROM httpd
+COPY . /usr/local/apache2/htdocs/
+#build images
+#check the inex.html and docker file in same PATH
+docker build -t staticwebpage .
+#run the container
+build run -d -p 8080:80 staticwebsit
+docker ps 
+build run -d -p 8081:80 nginx
+#install docker-compose
+curl -L "https://github.com/docker/compose/releases/download/1.24.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+chmod +x /usr/local/bin/docker-compose
+docker-compose --version
+#install git
+yum install git
+#see the in github in react-js repo and ckeck the dockerfile and gitclone it 
+git clone https://github.com/chamulekkala/react-docker-multi-stage-example.git
+cd react-docker-multi-stage-example/
+ vi docker-compose.yml
+ # inside yaml file write data
+ version: "3.0"
+
+services:
+  hello-world:
+    build: 
+      context: ./
+      dockerfile: Dockerfile
+    ports:
+      - 8080:8080 
+#install k8s
+curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.20.4/2021-04-12/bin/linux/amd64/kubectl
+ls -ltr
+echo $PATH
+chmod 755 kubectl
+mv kubectl /usr/local/bin/
+kubectl
+#install terraform
+wget https://releases.hashicorp.com/terraform/1.0.1/terraform_1.0.1_linux_amd64.zip
+unzip terraform_1.0.1_linux_amd64.zip
+rm -rf terraform_1.0.1_linux_amd64.zip
+mv terraform /usr/local/bin/
+terraform -version
+#in before create one ec2-adminstrative role attache
+  to the ec2
+  #Set up and initialize your Terraform workspace
+  git clone https://github.com/hashicorp/learn-terraform-provision-eks-cluster
+  cd learn-terraform-provision-eks-cluster/
+  ls -ltr
+# terraform init  
+  terraform init
+  terraform init -upgrade
+#terraform plan
+terraform plan
+terraform apply -yes
+#in inside apply creating inside vpc
+                                 network
+                                 nods
+                                 secutity group
+#crete configfile
+cd
+pwd
+/root
+mkdir .kube
+cd .kube/
+#write config file
+vi config
+apiVersion: v1
+preferences: {}
+kind: Config
+
+clusters:
+- cluster:
+    server: https://2772E79171469AA51A85C9D538AC7FF4.gr7.us-east-2.eks.amazonaws.com
+    certificate-authority-data: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUM1ekNDQWMrZ0F3SUJBZ0lCQURBTkJna3Foa2lHOXcwQkFRc0ZBREFWTVJNd0VRWURWUVFERXdwcmRXSmwKY201bGRHVnpNQjRYRFRJeE1EY3dOakEyTXpnMU4xb1hEVE14TURjd05EQTJNemcxTjFvd0ZURVRNQkVHQTFVRQpBeE1LYTNWaVpYSnVaWFJsY3pDQ0FTSXdEUVlKS29aSWh2Y05BUUVCQlFBRGdnRVBBRENDQVFvQ2dnRUJBSzhYCm5hY0R4MU1pbktxZk5aZ0hRRHJIbXhKdVRPQlQ3dkFCVUdnWWFOci9FWC9TQ0c1eWhJOEswbEhTQUVSNnloZ3IKREVXMWtEYmw5aTY0QnpnMVdvUmk5UnlLNmpnVTEwTm1CUlBBKytybHZEanFLZ3dGRDBsUDdVYmRqbkJBbVRrQgpUcjNQbkVUdlB0bGVBL09wQW1HUHdKZjVDVklFeGRLU1Y5Z3g5eXphc2VUa0NoMXdkTXdENy9GWS9LSkZHYUcxCjR1TE5HZXlMMWxnYjZmbnNFOFc4WlhGNk9iUDhacWoyUXJ6ejN4VUlNRXNmaGRWMHJwRTlLdVQ2VWJWQit0TFIKSG9RbUNXbWRnZXdNUmFhVHNQVC9sNG9VamRlM0tMZ2JjeUk1WGcyL0dIMkxyMkxNSVdNdnNBeFMvRmRzQnMxMQphTVpOdmEwaEZwOE1WTXBQMUZjQ0F3RUFBYU5DTUVBd0RnWURWUjBQQVFIL0JBUURBZ0trTUE4R0ExVWRFd0VCCi93UUZNQU1CQWY4d0hRWURWUjBPQkJZRUZOM1l3K0NleUpXaER3amJYbFVYT1JMYUNVck1NQTBHQ1NxR1NJYjMKRFFFQkN3VUFBNElCQVFDTnhUWlUveGRITVBqZ29uNUFWLzE0OTA3b3A3NTlhdXZOQXVoeVNhbmIzWis3S0xINgpuTjhKSkw4enZVTzFEUDRaSEd0L2gxTTR3eFR6dm5LV2Z6MWhycm1CalVMYmRocUZEVWp2ckhlL2wxSDdvU0IzCmxYTHBTdkgweFlPa3M3WEZ1QjZXNXFvTzRIc2pjLzJHc0pIRC9NajlFNkZPcEhiYlpxdmlGemNPQS84Sm1yaWQKQlFCZll3WEV0TlNESUtITUdJYSt4RWxUd0hxVFhsb1JVUXJGc2NzaFBTaUZ2UFB0UEltVkhUTVFMSU14VjNsRwpJRFdreElaTGs2RGlIV2xZTlF3RFMza0hLUEJHWitLbGVtWXVhc1RUaDhUcHVhWm81a0xjNW1wcWZCSFJiRUJnCnV6SERFSHdSaVdYTWZsNnhua0NuNjBpakkwSHp3U21Rc3N6eAotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg==
+  name: eks_education-eks-yPpoqiBy
+
+contexts:
+- context:
+    cluster: eks_education-eks-yPpoqiBy
+    user: eks_education-eks-yPpoqiBy
+  name: eks_education-eks-yPpoqiBy
+
+current-context: eks_education-eks-yPpoqiBy
+
+users:
+- name: eks_education-eks-yPpoqiBy
+  user:
+    exec:
+      apiVersion: client.authentication.k8s.io/v1alpha1
+      command: aws-iam-authenticator
+      args:
+        - "token"
+        - "-i"
+        - "education-eks-yPpoqiBy"
+kubectl get nodes
+#install one more dependency aws-iam-authentication
+curl -o aws-iam-authenticator https://amazon-eks.s3.us-west-2.amazonaws.com/1.19.6/2021-01-05/bin/linux/amd64/aws-iam-authenticator
+#give pemissions
+chmod 755  aws-iam-authenticator
+mv aws-iam-authenticator /usr/local/bin/
+kubectl get nodes
+#find how many Ns 
+kubectl get Ns
+#check pod wiil be runnig on wich nodes
+ kubectl get po -n kube-system -o wide
+# kube-system is nameservice
+#How to use a Network Load Balancer with the NGINX Ingress resource in Kubernetes
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-0.32.0/deploy/static/provider/aws/deploy.yaml
+kubectl get ns 
+# go inside ns 
+kubectl get ps -n ingress-nginx
+ kubectl get deployment -n ingress-nginx
+  kubectl get rs -n ingress-nginx
+#find services
+kubectl get svc -n ingress-nginx
+
+
+create name space 
+------------------------------
+the below link will shows the stucture of yml file
+-------------------------------------------------------------------
+https://kubernetes.io/docs/tasks/administer-cluster/namespaces/
+
+
+imperative 
+-----------
+kubectl create ns app1     /if already exist the name space ...create will show the error
+
+declarative
+-------------
+vi app2.yml            
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: app1
+
+
+kubectl apply -f app2.yml     /if already exist the name space ...apply will show the msg ....already exist
+
+kubectl get ns
+
+kubectl delets -f app1     /to delete the name space
+
+kubectl create ns app1
+
+create deployment object
+-----------------------------------------------------------------------
+
+in this link will show the example of deployment
+--------------------------------------------------------------
+https://kubernetes.io/docs/tasks/run-application/run-stateless-application-deployment/
+
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  namespace: app1                                           
+spec:
+  selector:
+    matchLabels:
+      app: nginx
+  replicas: 2 # tells deployment to run 2 pods matching the template
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.14.2
+        ports:
+        - containerPort: 80
+
+vi app1.yaml
+
+kubectl apply -f app1.yaml
+
+to check howmany pods should be running in the app1 namespace
+--------------------------------------------------------------------------------------------
+kubectl get po -n app1
+
+the replication set is 2 then we will delete any one pod ..you will get the reeplication of another pod // dont delete the deploymet // only delete the pods 
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+kubectl delete po nginx-deployment-66b6c48dd5-q2skx -n app1
+
+
+kubectl get po -n app1     //then we will se the pod id  
+
+to check the ingress-nginx--------->pod,deployment,ss,rs,daemonset
+
+kubectl get po -n ingress-nginx
+
+kubectl get replicaset -n ingress-nginx
+
+kubectl get svc -n ingress-nginx
+
+
+loadbalancer ----svc------deployment-------(pod)
+
+kubectl get deployment -n app1
+
+kubectl get po -n app1
+
+
+create the service
+--------------------------------------
+
+https://kubernetes.io/docs/concepts/services-networking/service/
+
+
+
+---------------------------------------
+loadbalancer
+----------------------------------------
+apiVersion: v1
+kind: Service
+metadata:
+  name: app1-service
+  namespace: app1
+spec:
+  selector:
+    app: nginx-deployment
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: LoadBalancer
+
+kubectl apply -f app1-service.yaml
+
+kubectl get svc -n app1
+
+----------------------------------------------------
+cluster ip------------------this is clasic load balancer
+------------------------------------------------------
+
+vi app1-service.yaml
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: app-app1-service
+  namespace: app1
+spec:
+  selector:
+    app: nginx-deployment
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  
+
+kubectl apply -f app1-service.yamal
+
+kubectl get svc -n app1
+
+below information wiill give the exact result:
+----------------------------------------------------------------
+
+
+
+[root@ip-172-31-57-200 .kube]# kubectl get svc -n app1
+NAME               TYPE           CLUSTER-IP       EXTERNAL-IP                                                              PORT(S)        AGE
+app-app1-service   ClusterIP      172.20.197.82    <none>                                                                   80/TCP         11s
+app1-service       LoadBalancer   172.20.183.194   aa40718ab6dd4414ebb0d6288c86812a-297042595.us-east-2.elb.amazonaws.com   80:30422/TCP   7m11s
+
+
+
+
+
+
+kubenx ---raw code link
+-------------------------------
+ wget https://raw.githubusercontent.com/ahmetb/kubectx/master/kubens
+
+ls -lthr
+chmos 755 kubens
+
+tocheck kubens is working or not 
+-----------------------------------------------
+./kubens
+
+mv kubens /usr/local/bin/
+
+kubens app1
+
+check
+-------
+kubectl get po 
+kubectl get deployments
+kubectl get svc
+kubectl get rs
+     
+kubens app2
+
+check
+-------
+kubectl get po 
+kubectl get deployments
+kubectl get svc
+kubectl get rs
+
+
+kubns ingress-nginx
+
+check
+-------
+kubectl get po 
+kubectl get deployments
+kubectl get svc
+kubectl get rs
+
+check the lb endpoint
+---------------------------
+
+kubectl get svc -o wide
+
+
+
+check the output for app2
+--------------------------------------
+take the svc---lb endpoint---and browse
+
+ad45f43f8dfaf4940bd0b9b1888cb60a-68324034.us-east-2.elb.amazonaws.com
+
+you got the belo erroe
+
+This page isnt workingad45f43f8dfaf4940bd0b9b1888cb60a-68324034.us-east-2.elb.amazonaws.com 
+didnt send any data.
+ERR_EMPTY_RESPONSE
+
+kubectl get deployment
+
+NAME               READY   UP-TO-DATE   AVAILABLE   AGE
+nginx-deployment   10/10   10           10          61m
+
+
+kubectl get deployment -o wide
+
+
+NAME               READY   UP-TO-DATE   AVAILABLE   AGE   CONTAINERS   IMAGES         SELECTOR
+nginx-deployment   10/10   10           10          62m   nginx        nginx:1.14.2   app=nginx
+
+
+
+in the above statements to check the selector  nginx-deployment----to----app=nginx
+                                                                           nginx----to---- app= nginx
+
+edit the app2-svc.yaml
+
+
+kubectl apply -f app2-svc.yaml 
+
+
+go and refresh the browser
+
+you got the out put
+----------------------------------
+
+Welcome to nginx!
+If you see this page, the nginx web server is successfully installed and working. Further configuration is required.
+
+For online documentation and support please refer to nginx.org.
+Commercial support is available at nginx.com.
+
+Thank you for using nginx.
+
+kubectl get svc -o wide          check this command
+
+
+
+create one more app3
+----------------------------------------
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: app3
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  namespace: app3
+spec:
+  selector:
+    matchLabels:
+      app: nginx
+  replicas: 5 # tells deployment to run 2 pods matching the template
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.14.2
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: app3-service
+  namespace: app3
+spec:
+  selector:
+    app: nginx
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: LoadBalancer
+
+
+save and exit
+
+the check    kubens
+
+kubens app3
+
+kubectl get po
+kubectl get deployments
+kubectl get rs
+kubectl get svc
+
+finally checkt the lb ---endpoint----browse-----you got nginx page
+
+
+kubectl get po | grep -i running
+
+
+
+kubectl get po | grep -i running | wc -l
+
+create one more app4
+---------------------------
+vi app4.yaml
+
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: app4
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  namespace: app4
+spec:
+  selector:
+    matchLabels:
+      app: nginx
+  replicas: 5 # tells deployment to run 2 pods matching the template
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.14.2
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: app4-service
+  namespace: app4
+spec:
+  selector:
+    app: nginx
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: LoadBalancer
+
+
+kubectl apply -f app4.yaml
+
+kubectl get deployment
+
+edit option
+---------------
+
+kubectl edit deployment <deployment name>
+
+modify the replicaset:
+
+save and exit
+
+
+
+
+create ingress object
+----------------------------------
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: app4
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  namespace: app4
+spec:
+  selector:
+    matchLabels:
+      app: nginx
+  replicas: 1 # tells deployment to run 2 pods matching the template
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.14.2
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: app4-svc
+  namespace: app4
+spec:
+  selector:
+    app: nginx
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+ name: app4-ingress
+ namespace: app4
+spec:
+ rules:
+ - host: krishna.kkmn.info
+   http:
+     paths:
+     - path:
+       backend:
+         serviceName: app4-svc
+         servicePort: 80
+
+
+
+kubectl apply -f app4.yaml
+
+kubens app4
+
+kubectl get po
+kubectl get deployments
+kubectl get svc
+kubectl get rs
+kubectl get ing
+
+in this place you are see the  nlb lb endpoint and also the  dns name
+
+then we will create the record set through thr r53
+
+the chect lically 
+nslookup dns name
+
+go to browser then access the dns name
